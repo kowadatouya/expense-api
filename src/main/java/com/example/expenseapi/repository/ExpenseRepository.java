@@ -1,6 +1,7 @@
 package com.example.expenseapi.repository;
 
 import com.example.expenseapi.dto.Expense;
+import com.example.expenseapi.exception.ExpenseNotFoundException;
 import com.example.expenseapi.mapper.ExpenseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,9 @@ public class ExpenseRepository {
     }
 
     public Expense update(Expense expense){
+        if (expenseMapper.updateExpense(expense) == 0) {
+            throw new ExpenseNotFoundException(expense.getTransactionId());
+        }
         return expense;
     }
 }
